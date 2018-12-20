@@ -8,8 +8,10 @@ Page({
     logged: false,
     takeSession: false,
     requestResult: '',
-    consumeType:'不限',
-    foodType:'不限'
+    consumeType:["不限","随便凑合","大吃一顿"],
+    foodType: ["不限", "早餐", "午餐","晚餐","夜宵"],
+    consumeTypeindex:0,
+    foodTypeindex:0
   },
 
   onLoad: function() {
@@ -75,6 +77,25 @@ Page({
     })
   },
 
+  consumeTypeChange: function (e) {
+    this.setData({
+      consumeTypeindex: e.detail.value
+    })
+  },
+
+  foodTypeChange: function(e) {
+    this.setData({
+      foodTypeindex: e.detail.value
+    })
+  },
+
+  editMenu:function(){
+    wx.navigateTo({
+      url: '../menu/menu'
+    })
+  }
+
+  /*
   // 上传图片
   doUpload: function() {
     // 选择图片
@@ -123,6 +144,6 @@ Page({
         console.error(e)
       }
     })
-  },
+  },*/
 
 })

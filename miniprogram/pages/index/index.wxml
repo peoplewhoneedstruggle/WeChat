@@ -7,11 +7,19 @@
   <view class="divLine"></view>
   <view class="chooseType">
     <view class="divLine"></view>
-    <text class='typeText'>消费类型</text>
-    <text class='typeText'>{{consumeType}}</text>
+    <picker class='typeText' bindchange="consumeTypeChange" value="{{consumeTypeindex}}" 
+    range="{{consumeType}}">
+    <text >消费类型：{{consumeType[consumeTypeindex]}}</text>
+    </picker>
     <view class="midDivLine"></view>
-    <text class='typeText'>就餐类型</text>
-    <text class='typeText'>{{foodType}}</text>
+    <picker class='typeText' bindchange="foodTypeChange" value="{{foodTypeindex}}" 
+    range="{{foodType}}">
+    <text >就餐类型：{{foodType[foodTypeindex]}}</text>
+    </picker>
     <view class="divLine"></view>
+  </view>
+  <view class="buttomList">
+  <text class="buttomText" bindtap='editMenu'>自定义菜单</text>
+  <text class="buttomText" >数据统计</text>
   </view>
 </view>
