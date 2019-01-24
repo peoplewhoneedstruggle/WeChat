@@ -1,0 +1,27 @@
+<view class="body">
+  <text class="topText" selectable="false" space="false" decode="false">填写信息</text>
+  <view class="form" hover-class="none" hover-stop-propagation="false">
+  <view class="topName" hover-class="none" hover-stop-propagation="false">
+    <label for="">名称</label>
+  <input type="text" placeholder="请输入菜品名称" bindblur="saveMealName"></input>
+  </view>
+  <view class="midText" >
+    其它选项
+  </view>
+    
+  <view class="content" >
+    <picker class="picker"  range="{{consumeType}}" value="{{consumeTypeindex}}"  bindchange="consumeTypeChange" >
+          <label for="">消费类型</label>
+            <text class="pickerText">{{consumeType[consumeTypeindex]}}</text>
+          </picker>
+  </view>
+  <view class="mealType" wx:for="{{foodType}}" wx:key="index">
+    <label for="">{{item.meal}}</label>
+    <switch class="" checked="{{item.flag}}" data-index="{{index}}" type="switch" bindchange="changeFlag">
+    </switch>
+  </view>
+    <button type="primary" class="saveButton" bind:tap="saveMeal">
+      保存
+    </button>
+  </view>
+</view>

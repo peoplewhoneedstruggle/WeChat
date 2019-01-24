@@ -1,9 +1,17 @@
 <!--index.wxml-->
 <view class="container">
 <button type='default' open-type='getUserInfo' bindgetuserinfo='onGetUserInfo' class='login'>点击授权</button>
-<text class="headTitle">今天吃什么呢？</text>
+
+<swiper class="swiper" autoplay="{{autoplay}}" duration="0" interval="30" vertical="true" circular="true" bindchange="swiperChanged"
+current="0"  >
+  <block wx:for="{{mealFilter}}" wx:key="index" data-finaMeal="{{item.mealName}}">
+    <swiper-item >
+<text class="headTitle" >{{item.mealName}}</text>
+    </swiper-item>
+  </block>
+</swiper>
   <view class="divLine"></view>
-<button class="startButton"  size='default' type='primary'>开始！</button>
+<button class="startButton"  size='default' type='primary' bind:tap="startMeal">{{togglePlay}}！</button>
   <view class="divLine"></view>
   <view class="chooseType">
     <view class="divLine"></view>

@@ -1,8 +1,8 @@
 {
 
-    "navigationBarBackgroundColor": "#000000",
-    "navigationBarTextStyle": "white",
-    "navigationBarTitleText": "选择菜单",
+    "navigationBarBackgroundColor": "#fff",
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "添加一个菜品",
     "navigationStyle": "default|custom",
     "backgroundColor": "#ffffff",
     "backgroundTextStyle": "dark|light",

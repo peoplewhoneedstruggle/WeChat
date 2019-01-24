@@ -1,0 +1,53 @@
+.topText {
+    font-size: 0.7rem;
+    padding: 5px 0 10px 10px;
+}
+
+.topName {
+    display: flex;
+    flex-direction: row;
+    border: 1px solid #ccc;
+    padding: 5px 5px 5px 10px;
+    margin: 5px 15px;
+    justify-content: space-between;
+    font-size: 0.8rem;
+}
+
+.topName>input {
+    display: inline;
+}
+
+.midText {
+    font-size: 0.7rem;
+    padding: 5px 5px 5px 10px;
+}
+
+.pickerText {
+    float: right;
+    margin-right: 15px;
+}
+
+.content {
+    padding: 5px 5px 5px 10px;
+    border: 1px solid #ccc;
+    border-left: none;
+    font-size: 0.8rem;
+    border-right: none;
+}
+
+.mealType {
+    padding: 5px 5px 5px 10px;
+    border: 1px solid #ccc;
+    border-left: none;
+    font-size: 0.8rem;
+    border-right: none;
+    height: 3rem;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between
+}
+
+.saveButton {
+    margin: 10px;
+}

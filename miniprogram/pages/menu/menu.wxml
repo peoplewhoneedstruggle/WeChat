@@ -1,0 +1,33 @@
+<view class="body">
+  <view class="header">
+    <text class="meauText">菜  单</text>
+    <view class="topButtonList">
+      <button size="mini" class='topButton selected' bind:tap="addMeal">添 加</button>
+      <button size="mini" class='topButton' bind:tap="default">默 认</button>
+    </view>
+  </view>
+  <view class='content'>
+    <view class='meaulistul' wx:for="{{mealList}}" wx:key="index">
+      <view class="meaulistli">
+        <view class="meal-between" >
+        <view class='mealLeft'>
+          <text class='mealText'>{{index+1}}.{{item.mealName}}</text>
+          <view class='meallist'>
+          <text  wx:for="{{item.mealType}}" wx:for-item="meal" wx:key="index">
+            <text wx:if="{{meal==='早餐'}}" class='breakfast'>{{meal}} </text>
+            <text wx:if="{{meal==='午餐'}}" class='lunch'>{{meal}} </text>
+            <text wx:if="{{meal==='晚餐'}}" class='dinner'>{{meal}} </text>
+            <text wx:if="{{meal==='夜宵'}}" class='yexiao'>{{meal}} </text>
+          </text>
+          </view>
+        </view>
+        <view class='mealRight' >
+        <switch class='switch' checked="{{item.flag}}" bindchange="switchFlag" data-index="{{index}}"></switch>
+        <button size='mini' type='warn' class="delete" bind:tap="delete" data-index="{{index}}">删除</button>
+        </view>
+        </view>
+        <view class="divLine"></view>
+      </view>
+    </view>
+  </view>
+</view>
