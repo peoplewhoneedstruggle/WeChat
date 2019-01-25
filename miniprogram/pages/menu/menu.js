@@ -1,7 +1,6 @@
 // miniprogram/pages/menu/menu.js
 const app = getApp();
 Page({
-
     /**
      * 页面的初始数据
      */
@@ -13,7 +12,7 @@ Page({
             url: "../addMeal/addMeal"
         });
     },
-    default () {
+    default() {
         let _this = this;
         wx.showModal({
             title: "确认恢复至默认菜单？",

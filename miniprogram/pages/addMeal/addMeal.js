@@ -1,6 +1,6 @@
 // miniprogram/pages/addMeal/addMeal.js
+const app = getApp();
 Page({
-
     /**
      * 页面的初始数据
      */
@@ -38,15 +38,30 @@ Page({
     saveMeal() {
         if (this.data.mealName === "") {
             wx.showToast({
-                title: "名称不能为空1",
-                icon: "warn"
+                title: "名称不能为空",
+                icon: "none",
             });
         } else {
             this.data.savedMeal.mealName = this.data.mealName;
             this.data.savedMeal.mealType = this.data.foodType.filter((item) => {
                 if (item.flag) { return true; }
             }).map(item => item.meal);
-            this.data.savedMeal.consumeType = this.data.consumeType[this.data.consumeTypeindex];
+            this.data.savedMeal.consumeType = [this.data.consumeType[this.data.consumeTypeindex]];
+            this.data.savedMeal.flag = true;
+
+            console.log(app.globalData.mealList.some(item => item.mealName === this.data.savedMeal.mealName));
+            if (app.globalData.userMealList.some(item => item.mealName === this.data.savedMeal.mealName)) {
+                wx.showToast({
+                    title: `${this.data.savedMeal.mealName}已存在`,
+                    icon: "none",
+                });
+            } else {
+                app.globalData.userMealList.push(this.data.savedMeal);
+                wx.showToast({
+                    title: "保存成功",
+                    icon: "success",
+                });
+            }
             console.log(this.data.savedMeal);
         }
     },

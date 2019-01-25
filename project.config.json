@@ -10,7 +10,7 @@
 	},
 	"appid": "wx57ac99785369980b",
 	"projectname": "EatWhat",
-	"libVersion": "2.4.2",
+	"libVersion": "2.5.1",
 	"condition": {
 		"search": {
 			"current": -1,

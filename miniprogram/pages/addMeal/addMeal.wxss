@@ -12,7 +12,9 @@
     justify-content: space-between;
     font-size: 0.8rem;
 }
-
+.labelName{
+  width: 30%;
+}
 .topName>input {
     display: inline;
 }

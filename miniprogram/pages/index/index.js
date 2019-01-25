@@ -14,6 +14,8 @@ Page({
         foodTypeindex: 0,
         mealList: [],
         mealFilter: [],
+        mealFinalFilter:[],
+        filterFlag:false,
         autoplay: false,
         togglePlay: "开始",
         finaMeal: "",
@@ -31,13 +33,15 @@ Page({
             success: function(data) {
                 _this.setData({
                     mealList: data.data,
-                    mealFilter: data.data
+                    mealFilter: data.data,
+                    mealFinalFilter:data.data
                 });
             },
             fail: function() {
                 _this.setData({
                     mealList: app.globalData.mealList,
-                    mealFilter: app.globalData.mealList
+                    mealFilter: app.globalData.mealList,
+                    mealFinalFilter: app.globalData.mealList,
                 });
             }
         });
@@ -65,15 +69,10 @@ Page({
         this.setData({
             autoplay: !this.data.autoplay,
         });
-        if (this.data.autoplay) {
-            this.setData({
-                togglePlay: "停"
-            });
-            console.log(this.data.mealFilter);
-        } else {
-            this.setData({
-                togglePlay: "开始"
-            });
+        this.setData({
+            togglePlay: this.data.autoplay ? "停" : "开始"
+        });
+        if (!this.data.autoplay) {
             wx.showModal({
                 title: "今天就去吃",
                 content: this.data.finaMeal,
@@ -88,6 +87,17 @@ Page({
         this.setData({
             finaMeal: this.data.mealList[event.detail.current].mealName
         });
+        // console.log(this.data.mealList[event.detail.current].mealName);
+        if (!this.data.autoplay) {
+            wx.showModal({
+                title: "今天就去吃",
+                content: this.data.finaMeal,
+                confirmText: "就是你啦",
+                cancelText: "考虑考虑",
+                bindconfirm: function() {},
+                bindcancel: function() {}
+            });
+        }
     },
     onGetUserInfo: function(e) {
         console.log(this.data.userInfo);
@@ -101,43 +111,70 @@ Page({
             console.log(this.data.userInfo);
         }
     },
-
-    onGetOpenid: function() {
-        // 调用云函数
-        wx.cloud.callFunction({
-            name: "login",
-            data: {},
-            success: res => {
-                console.log("[云函数] [login] user openid: ", res.result.openid);
-                app.globalData.openid = res.result.openid;
-                wx.navigateTo({
-                    url: "../userConsole/userConsole",
-                });
-            },
-            fail: err => {
-                console.error("[云函数] [login] 调用失败", err);
-                wx.navigateTo({
-                    url: "../deployFunctions/deployFunctions",
-                });
-            }
-        });
+    catchTouchMove() {
+        return false;
     },
-
     consumeTypeChange: function(e) {
+      console.log(this.data.mealFinalFilter);
+      console.log(e.detail.value,this.data.consumeTypeindex)
+      if (this.data.foodTypeindex==0&&e.detail.value!=0){
         this.setData({
-            consumeTypeindex: e.detail.value
+          mealFilter: this.data.mealList.filter(item => item.consumeType.indexOf(this.data.consumeType[e.detail.value]) != -1)
+        })
+        this.setData({
+          mealFinalFilter: this.data.mealFilter
+        })
+        console.log(1)
+      }
+      if (this.data.foodTypeindex != 0 && e.detail.value != 0){
+        this.setData({
+          mealFinalFilter: this.data.mealFilter.filter(item => item.consumeType.indexOf(this.data.consumeType[e.detail.value]) != -1)
+        })
+        console.log(2)
+      }
+      if (this.data.foodTypeindex == 0 && e.detail.value == 0){
+        this.setData({
+          mealFinalFilter: this.data.mealList
+        })
+      }
+      if (e.detail.value != this.data.consumeTypeindex) {
+        this.setData({
+          consumeTypeindex: e.detail.value
         });
+        console.log(3)
+      }
+      console.log(this.data.mealFinalFilter);
     },
 
     foodTypeChange: function(e) {
+      console.log(this.data.mealFinalFilter);
+      if (this.data.consumeTypeindex == 0 && e.detail.value != 0) {
         this.setData({
-            foodTypeindex: e.detail.value
+          mealFilter: this.data.mealList.filter(item => item.mealType.indexOf(this.data.foodType[e.detail.value]) != -1)
+        })
+        this.setData({
+          mealFinalFilter: this.data.mealFilter
+        })
+        console.log(1)
+      }
+      if (this.data.consumeTypeindex != 0 && e.detail.value != 0) {
+        this.setData({
+          mealFinalFilter: this.data.mealFilter.filter(item => item.mealType.indexOf(this.data.foodType[e.detail.value]) != -1)
+        })
+        console.log(2)
+      }
+      if (this.data.consumeTypeindex == 0 && e.detail.value == 0) {
+        this.setData({
+          mealFinalFilter: this.data.mealList
+        })
+      }
+      if (e.detail.value != this.data.foodTypeindex) {
+        this.setData({
+          foodTypeindex: e.detail.value
         });
-        if (e.detail.value !== 0) {
-            this.setData({
-                mealFilter: this.data.mealList.filter((item) => { if (item.mealType.indexOf(this.data.foodType[this.data.foodTypeindex]) !== -1) return true; })
-            });
-        }
+        console.log(3)
+      }
+      console.log(this.data.mealFinalFilter);
     },
 
     editMenu: function() {
@@ -145,56 +182,4 @@ Page({
             url: "../menu/menu"
         });
     }
-
-    /*
-    // 上传图片
-    doUpload: function() {
-      // 选择图片
-      wx.chooseImage({
-        count: 1,
-        sizeType: ['compressed'],
-        sourceType: ['album', 'camera'],
-        success: function(res) {
-
-          wx.showLoading({
-            title: '上传中',
-          })
-
-          const filePath = res.tempFilePaths[0]
-
-          // 上传图片
-          const cloudPath = 'my-image' + filePath.match(/\.[^.]+?$/)[0]
-          wx.cloud.uploadFile({
-            cloudPath,
-            filePath,
-            success: res => {
-              console.log('[上传文件] 成功：', res)
-
-              app.globalData.fileID = res.fileID
-              app.globalData.cloudPath = cloudPath
-              app.globalData.imagePath = filePath
-
-              wx.navigateTo({
-                url: '../storageConsole/storageConsole'
-              })
-            },
-            fail: e => {
-              console.error('[上传文件] 失败：', e)
-              wx.showToast({
-                icon: 'none',
-                title: '上传失败',
-              })
-            },
-            complete: () => {
-              wx.hideLoading()
-            }
-          })
-
-        },
-        fail: e => {
-          console.error(e)
-        }
-      })
-    },*/
-
 });

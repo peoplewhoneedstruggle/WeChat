@@ -2,10 +2,10 @@
 <view class="container">
 <button type='default' open-type='getUserInfo' bindgetuserinfo='onGetUserInfo' class='login'>点击授权</button>
 
-<swiper class="swiper" autoplay="{{autoplay}}" duration="0" interval="30" vertical="true" circular="true" bindchange="swiperChanged"
+<swiper class="swiper" autoplay="{{autoplay}}" duration="0" interval="50" vertical="true" circular="true" bindchange="swiperChanged"
 current="0"  >
-  <block wx:for="{{mealFilter}}" wx:key="index" data-finaMeal="{{item.mealName}}">
-    <swiper-item >
+  <block wx:for="{{mealFinalFilter}}" wx:key="index" data-finaMeal="{{item.mealName}}">
+    <swiper-item  catchtouchmove='catchTouchMove'>
 <text class="headTitle" >{{item.mealName}}</text>
     </swiper-item>
   </block>
